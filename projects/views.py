@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -12,6 +14,9 @@ class ProjectCreate(CreateView):
               'image', 'participants', 'coach', 'owner']
     success_url = reverse_lazy('project_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProjectCreate, self).dispatch(*args, **kwargs)
 
 class ProjectUpdate(UpdateView):
     model = Project
